@@ -3,6 +3,8 @@ venv/
 
 *.log
 *.bak
+*.pyc
+*.txt
 
 
 

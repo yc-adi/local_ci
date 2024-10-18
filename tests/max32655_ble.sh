@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-printf "\n\n#####################\n"
-printf "# pc_max32655_ble5_ctr.sh\n"
-printf "#####################\n\n"
+printf "\n\n##############################\n"
+printf "# max32655_ble.sh <1_project>\n"
+printf "##############################\n\n"
 
 echo $0 $@
 echo ""
@@ -10,8 +10,12 @@ echo ""
 ADI_YC=ADI
 echo ADI_YC=$ADI_YC
 
-PROJECT=BLE5_ctr
+PROJECT=$1
 echo PROJECT=$PROJECT
+if [ "x$PROJECT" == "x" ]; then
+    echo "input PROJECT name!"
+    exit 1
+fi
 
 bash -e ../scripts/setup_env.sh
 set +e
@@ -29,23 +33,20 @@ set -e
 
 MSDK_COMMIT=
 echo MSDK_COMMIT=$MSDK_COMMIT
-#git checkout -- .
+git checkout -- .
 if [ "x$MSDK_COMMIT" != "x" ]; then
     echo git checkout
 fi
 
-PC_COMMIT=
+PC_CONNECT=
 echo PC_COMMIT=$PC_COMMIT
 cd ${MSDK_REPO}/Libraries/Packetcraft-${ADI_YC}
 echo PWD=`pwd`
-set -x
 git status
 if [ "x${PC_COMMIT}" != "x" ]; then
     git checkout -- .
     git checkout $PC_COMMIT
 fi
-set +x
-
 cd $MSDK_REPO
 
 printf "\n--- build and flash the project\n"
@@ -79,6 +80,6 @@ bash -e /home/$USER/ws/msdk_dev_tools/scripts/build_flash.sh \
 
 set +e
 
-echo "Done: pc_max32655_ble5_ctr.sh"
+echo "DONE: $0"
 echo ""
 
